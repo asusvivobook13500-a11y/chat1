@@ -1,0 +1,1607 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CS2 Pro Voice Hub & Manager</title>
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-dark: #050608;
+            --bg-card: #0d1017;
+            --bg-card-hover: #131822;
+            --accent-purple: #8b5cf6;
+            --accent-purple-glow: rgba(139, 92, 246, 0.4);
+            --accent-red: #ff4655;
+            --accent-red-glow: rgba(255, 70, 85, 0.4);
+            --accent-blue: #00fbff;
+            --accent-blue-glow: rgba(0, 251, 255, 0.4);
+            --text-main: #8b9bb4;
+            --text-white: #ffffff;
+            --border-color: #1a2232;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+
+            --team-1: #ff4655; --team-1-glow: rgba(255, 70, 85, 0.4);
+            --team-2: #00fbff; --team-2-glow: rgba(0, 251, 255, 0.4);
+            --team-3: #8b5cf6; --team-3-glow: rgba(139, 92, 246, 0.4);
+            --team-4: #10b981; --team-4-glow: rgba(16, 185, 129, 0.4);
+            --team-5: #f59e0b; --team-5-glow: rgba(245, 158, 11, 0.4);
+            --team-6: #ff7a00; --team-6-glow: rgba(255, 122, 0, 0.4);
+            --team-7: #ec4899; --team-7-glow: rgba(236, 72, 153, 0.4);
+            --team-8: #a3e635; --team-8-glow: rgba(163, 230, 53, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 10px;
+            overflow-x: hidden;
+            width: 100%;
+            background-image: 
+                radial-gradient(circle at 15% 10%, rgba(139, 92, 246, 0.06) 0%, transparent 45%),
+                radial-gradient(circle at 85% 90%, rgba(16, 185, 129, 0.04) 0%, transparent 45%);
+        }
+
+        header {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border-radius: 14px;
+            border: 1px solid var(--border-color);
+            border-top: 4px solid var(--accent-purple);
+            margin-bottom: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo i {
+            font-size: 28px;
+            color: var(--accent-purple);
+            filter: drop-shadow(0 0 10px var(--accent-purple-glow));
+        }
+
+        .logo h1 {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 20px;
+            color: var(--text-white);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: var(--text-white);
+            border: none;
+            padding: 10px 18px;
+            font-weight: 700;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 15px var(--accent-purple-glow);
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 22px rgba(139, 92, 246, 0.6);
+            background: linear-gradient(135deg, #9333ea, #6d28d9);
+        }
+
+        .btn-secondary {
+            background: #131822;
+            box-shadow: none;
+            border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover { background: #1c2436; }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981, #059669);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+            color: #fff;
+        }
+
+        main {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .section-card {
+            background: var(--bg-card);
+            border-radius: 14px;
+            padding: 20px 15px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        @media(min-width: 768px) {
+            .section-card { padding: 30px; }
+            .logo h1 { font-size: 26px; }
+        }
+
+        .section-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--accent-purple);
+        }
+
+        .section-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 20px;
+            color: var(--text-white);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .section-title i {
+            color: var(--accent-purple);
+            font-size: 18px;
+        }
+
+        .admin-override-banner {
+            display: none;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 0 30px rgba(255, 70, 85, 0.4);
+            background: rgba(255, 70, 85, 0.18);
+            border: 2px solid var(--accent-red);
+            color: var(--accent-red);
+            animation: pulseGlow 1s infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: scale(0.99); opacity: 0.9; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media(min-width: 768px) {
+            .form-grid {
+                grid-template-columns: 2fr 3fr auto;
+                align-items: end;
+                gap: 20px;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            width: 100%;
+        }
+
+        .form-group label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-control {
+            background: var(--bg-dark);
+            border: 1px solid var(--border-color);
+            padding: 12px 14px;
+            border-radius: 8px;
+            color: var(--text-white);
+            font-size: 16px;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 10px var(--accent-purple-glow);
+        }
+
+        .avatar-select-grid {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .avatar-option {
+            background: var(--bg-dark);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            padding: 6px;
+        }
+
+        .avatar-option svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--text-main);
+            transition: fill 0.25s ease;
+        }
+
+        .avatar-option.selected {
+            border-color: var(--accent-purple);
+            background: rgba(139, 92, 246, 0.15);
+            box-shadow: 0 0 12px var(--accent-purple-glow);
+        }
+
+        .avatar-option.selected svg { fill: var(--accent-purple); }
+
+        .avatar-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            background: #131822;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--border-color);
+            padding: 5px;
+            flex-shrink: 0;
+            fill: var(--accent-purple);
+        }
+
+        .avatar-box svg { width: 22px; height: 22px; }
+
+        .pending-join-notice {
+            display: none;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid var(--warning);
+            padding: 15px;
+            border-radius: 10px;
+            color: #fbbf24;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        .teams-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+
+        @media(min-width: 768px) {
+            .teams-container {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 20px;
+            }
+        }
+
+        .team-box {
+            border-radius: 14px;
+            padding: 14px;
+            border: 1px solid;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.8);
+            overflow: hidden;
+            background: #090c13;
+        }
+
+        @media(min-width: 768px) { .team-box { padding: 22px; } }
+
+        .team-box.team-idx-1 { background: linear-gradient(150deg, rgba(255, 70, 85, 0.12), #070304); border-color: rgba(255, 70, 85, 0.4); border-top: 4px solid var(--team-1); }
+        .team-box.team-idx-1 .team-title-wrap { color: var(--team-1); text-shadow: 0 0 10px var(--team-1-glow); }
+        .team-box.team-idx-1 .team-power-badge { background: rgba(255, 70, 85, 0.15); color: #ffa3a8; border: 1px solid rgba(255, 70, 85, 0.3); }
+
+        .team-box.team-idx-2 { background: linear-gradient(150deg, rgba(0, 251, 255, 0.12), #020609); border-color: rgba(0, 251, 255, 0.4); border-top: 4px solid var(--team-2); }
+        .team-box.team-idx-2 .team-title-wrap { color: var(--team-2); text-shadow: 0 0 10px var(--team-2-glow); }
+        .team-box.team-idx-2 .team-power-badge { background: rgba(0, 251, 255, 0.15); color: #a3ffff; border: 1px solid rgba(0, 251, 255, 0.3); }
+
+        .team-box.team-idx-3 { background: linear-gradient(150deg, rgba(139, 92, 246, 0.12), #07040a); border-color: rgba(139, 92, 246, 0.4); border-top: 4px solid var(--team-3); }
+        .team-box.team-idx-3 .team-title-wrap { color: var(--team-3); text-shadow: 0 0 10px var(--team-3-glow); }
+        .team-box.team-idx-3 .team-power-badge { background: rgba(139, 92, 246, 0.15); color: #d8b4fe; border: 1px solid rgba(139, 92, 246, 0.3); }
+
+        .team-box.team-idx-4 { background: linear-gradient(150deg, rgba(16, 185, 129, 0.12), #020805); border-color: rgba(16, 185, 129, 0.4); border-top: 4px solid var(--team-4); }
+        .team-box.team-idx-4 .team-title-wrap { color: var(--team-4); text-shadow: 0 0 10px var(--team-4-glow); }
+        .team-box.team-idx-4 .team-power-badge { background: rgba(16, 185, 129, 0.15); color: #a7f3d0; border: 1px solid rgba(16, 185, 129, 0.3); }
+
+        .team-box.team-idx-5 { background: linear-gradient(150deg, rgba(245, 158, 11, 0.12), #090601); border-color: rgba(245, 158, 11, 0.4); border-top: 4px solid var(--team-5); }
+        .team-box.team-idx-5 .team-title-wrap { color: var(--team-5); text-shadow: 0 0 10px var(--team-5-glow); }
+        .team-box.team-idx-5 .team-power-badge { background: rgba(245, 158, 11, 0.15); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+        .team-box.team-idx-6 { background: linear-gradient(150deg, rgba(255, 122, 0, 0.12), #0b0500); border-color: rgba(255, 122, 0, 0.4); border-top: 4px solid var(--team-6); }
+        .team-box.team-idx-6 .team-title-wrap { color: var(--team-6); text-shadow: 0 0 10px var(--team-6-glow); }
+        .team-box.team-idx-6 .team-power-badge { background: rgba(255, 122, 0, 0.15); color: #fed7aa; border: 1px solid rgba(255, 122, 0, 0.3); }
+
+        .team-box.team-idx-7 { background: linear-gradient(150deg, rgba(236, 72, 153, 0.12), #0a0206); border-color: rgba(236, 72, 153, 0.4); border-top: 4px solid var(--team-7); }
+        .team-box.team-idx-7 .team-title-wrap { color: var(--team-7); text-shadow: 0 0 10px var(--team-7-glow); }
+        .team-box.team-idx-7 .team-power-badge { background: rgba(236, 72, 153, 0.15); color: #fbcfe8; border: 1px solid rgba(236, 72, 153, 0.3); }
+
+        .team-box.team-idx-8 { background: linear-gradient(150deg, rgba(163, 230, 53, 0.12), #060901); border-color: rgba(163, 230, 53, 0.4); border-top: 4px solid var(--team-8); }
+        .team-box.team-idx-8 .team-title-wrap { color: var(--team-8); text-shadow: 0 0 10px var(--team-8-glow); }
+        .team-box.team-idx-8 .team-power-badge { background: rgba(163, 230, 53, 0.15); color: #ecfccb; border: 1px solid rgba(163, 230, 53, 0.3); }
+
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .team-title-wrap {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        @media(min-width: 768px) { .team-title-wrap { font-size: 20px; } }
+
+        .team-power-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .team-members-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .team-member-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(13, 16, 23, 0.95);
+            padding: 10px 12px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            gap: 8px;
+        }
+
+        .team-member-card.is-transmitting-team { border-color: var(--accent-blue); box-shadow: 0 0 15px var(--accent-blue-glow); background: rgba(0, 251, 255, 0.05); }
+        .team-member-card.is-transmitting-global { border-color: var(--accent-red); box-shadow: 0 0 15px var(--accent-red-glow); background: rgba(255, 70, 85, 0.08); }
+        .team-member-card.is-transmitting-admin { border-color: var(--warning); box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); background: rgba(245, 158, 11, 0.08); }
+
+        .member-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            min-width: 0;
+        }
+
+        .member-text-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            min-width: 0;
+        }
+
+        .member-row-top {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .member-name {
+            font-weight: 700;
+            color: var(--text-white);
+            font-size: 13px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 120px;
+        }
+
+        @media(min-width: 768px) { .member-name { font-size: 14px; max-width: 150px; } }
+
+        .member-live-status {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .member-live-status.idle { color: #64748b; }
+        .member-live-status.active-team { color: var(--accent-blue); }
+        .member-live-status.active-global { color: var(--accent-red); }
+        .member-live-status.active-admin { color: var(--warning); }
+
+        .status-svg-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .status-svg-badge svg { width: 11px; height: 11px; }
+        .status-svg-badge.granted { background: rgba(16, 185, 129, 0.2); border: 1px solid var(--success); fill: var(--success); box-shadow: 0 0 8px rgba(16, 185, 129, 0.5); }
+        .status-svg-badge.denied { background: rgba(239, 68, 68, 0.2); border: 1px solid var(--danger); fill: var(--danger); box-shadow: 0 0 8px rgba(239, 68, 68, 0.5); }
+
+        .audio-wave-bars {
+            display: none;
+            align-items: flex-end;
+            gap: 2px;
+            height: 16px;
+            padding: 0 4px;
+        }
+
+        .audio-wave-bars.active { display: inline-flex; }
+
+        .audio-wave-bar {
+            width: 3px;
+            border-radius: 3px;
+            animation: waveBounce 0.6s infinite ease-in-out alternate;
+        }
+
+        .audio-wave-bar:nth-child(1) { height: 5px; animation-delay: 0.1s; }
+        .audio-wave-bar:nth-child(2) { height: 13px; animation-delay: 0.3s; }
+        .audio-wave-bar:nth-child(3) { height: 8px; animation-delay: 0.2s; }
+        .audio-wave-bar:nth-child(4) { height: 15px; animation-delay: 0.4s; }
+
+        @keyframes waveBounce {
+            0% { transform: scaleY(0.3); }
+            100% { transform: scaleY(1); }
+        }
+
+        .wave-team .audio-wave-bar { background: var(--accent-blue); box-shadow: 0 0 6px var(--accent-blue); }
+        .wave-global .audio-wave-bar { background: var(--accent-red); box-shadow: 0 0 6px var(--accent-red); }
+        .wave-admin .audio-wave-bar { background: var(--warning); box-shadow: 0 0 6px var(--warning); }
+
+        .voice-action-stickers {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+
+        .sticker-btn {
+            background: #131822;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 5px;
+        }
+
+        .sticker-btn svg { width: 14px; height: 14px; }
+        .sticker-btn:hover { transform: translateY(-2px); }
+
+        .sticker-team svg { fill: var(--accent-blue); }
+        .sticker-team:hover { background: rgba(0, 251, 255, 0.2); border-color: var(--accent-blue); box-shadow: 0 0 8px var(--accent-blue-glow); }
+
+        .sticker-global svg { fill: var(--accent-red); }
+        .sticker-global:hover { background: rgba(255, 70, 85, 0.2); border-color: var(--accent-red); box-shadow: 0 0 8px var(--accent-red-glow); }
+
+        .sticker-admin svg { fill: var(--warning); }
+        .sticker-admin:hover { background: rgba(245, 158, 11, 0.2); border-color: var(--warning); box-shadow: 0 0 8px rgba(245, 158, 11, 0.4); }
+
+        #admin-panel {
+            display: none;
+            border-left-color: var(--accent-purple);
+        }
+
+        .admin-controls-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+            background: var(--bg-dark);
+            padding: 15px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        @media(min-width: 768px) {
+            .admin-controls-grid { 
+                grid-template-columns: repeat(3, 1fr); 
+                padding: 20px;
+            }
+        }
+
+        .admin-players-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: var(--bg-dark);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        .admin-players-table th, .admin-players-table td {
+            padding: 12px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 13px;
+        }
+
+        .admin-players-table th {
+            background: #131822;
+            color: var(--text-white);
+            font-family: 'Rajdhani', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 13px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            white-space: nowrap;
+        }
+
+        .status-pill.approved { background: rgba(16, 185, 129, 0.15); color: var(--success); border: 1px solid rgba(16, 185, 129, 0.4); }
+        .status-pill.pending { background: rgba(245, 158, 11, 0.15); color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.4); animation: pulseGlow 1.2s infinite alternate; }
+
+        .admin-voice-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            border: 1px solid;
+            transition: all 0.2s ease;
+        }
+
+        .admin-voice-btn.active { background: rgba(16, 185, 129, 0.15); border-color: var(--success); color: var(--success); }
+        .admin-voice-btn.active svg { fill: var(--success); width: 12px; height: 12px; }
+        .admin-voice-btn.inactive { background: rgba(239, 68, 68, 0.15); border-color: var(--danger); color: var(--danger); }
+        .admin-voice-btn.inactive svg { fill: var(--danger); width: 12px; height: 12px; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 6, 8, 0.88);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(8px);
+            padding: 15px;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            padding: 25px 20px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border-color);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.9);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            position: relative;
+        }
+
+        .modal-content::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 4px;
+            background: var(--accent-purple);
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+
+        .modal-title {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 20px;
+            color: var(--text-white);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            right: 15px;
+            left: 15px;
+            max-width: 400px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            color: var(--text-white);
+            padding: 14px 20px;
+            border-radius: 12px;
+            border-left: 4px solid var(--success);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 1100;
+            transform: translateY(150px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--border-color);
+        }
+
+        .notification.show { transform: translateY(0); }
+
+        footer {
+            margin-top: 30px;
+            font-family: 'Rajdhani', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            color: rgba(139, 155, 180, 0.25);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-crosshairs"></i>
+            <h1>CS2</h1>
+        </div>
+        <div class="header-actions">
+            <button class="btn btn-secondary" id="admin-toggle-btn" onclick="openAdminLoginModal()">
+                <i class="fa-solid fa-lock"></i> Admin
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="admin-override-banner" id="admin-override-banner">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <i class="fa-solid fa-tower-broadcast" style="font-size: 22px;"></i>
+                <span>📢 DIQQAT: ADMIN BARCHANI OPSHI CHATGA BOG'LADI!</span>
+            </div>
+            <span style="font-size: 11px; padding: 4px 8px; background: rgba(255,70,85,0.3); border-radius: 6px;">HAMMAGA OCHIQ</span>
+        </div>
+
+        <section class="section-card" id="registration-section">
+            <h2 class="section-title"><i class="fa-solid fa-user-plus"></i> Ro'yxatdan O'tish</h2>
+            <form id="public-reg-form" onsubmit="handleRegistration(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="reg-nickname">Nik name</label>
+                        <input type="text" id="reg-nickname" class="form-control" placeholder="Masalan: s1mple..." required>
+                    </div>
+                    <div class="form-group">
+                        <label>Tanlang:</label>
+                        <div class="avatar-select-grid" id="avatar-options-container"></div>
+                    </div>
+                    <div class="form-group" style="justify-content: flex-end;">
+                        <button type="submit" class="btn" style="height: 48px; justify-content: center; width: 100%;">
+                            <i class="fa-solid fa-paper-plane"></i> Kirish So'rovi
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <div class="pending-join-notice" id="pending-notice">
+                <i class="fa-solid fa-clock-rotate-left"></i> Sizning so'rovingiz qabul qilindi. Admin tasdiqlashi bilan ovozli aloqa avtomatik ulanadi!
+            </div>
+        </section>
+
+        <section class="section-card">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px;">
+                <h2 class="section-title" style="margin-bottom: 0;"><i class="fa-solid fa-users-rectangle"></i> Jamoalar Taqsimoti</h2>
+                <div style="font-size: 13px; color: var(--text-main); display: flex; align-items: center; gap: 6px;">
+                    Mening ruxsatim: <span id="my-voice-badge"></span>
+                </div>
+            </div>
+
+            <div id="public-teams-container" class="teams-container"></div>
+        </section>
+
+        <section class="section-card" id="admin-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <h2 class="section-title" style="margin-bottom: 0;"><i class="fa-solid fa-sliders"></i> Admin Panel</h2>
+                <button class="btn btn-danger" style="padding: 6px 12px; font-size: 11px;" onclick="logoutAdmin()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Chiqish
+                </button>
+            </div>
+
+            <div class="admin-controls-grid">
+                <div>
+                    <h3 style="font-family:'Rajdhani'; font-size:15px; color:var(--text-white); margin-bottom:10px; text-transform:uppercase;">Kamandalar Soni (1 - 8)</h3>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                        <button class="btn btn-secondary" onclick="changeTeamCount(-1)"><i class="fa-solid fa-minus"></i></button>
+                        <span id="admin-team-count" style="font-size: 18px; font-weight: 700; color: #fff; width: 35px; text-align: center;">8</span>
+                        <button class="btn btn-secondary" onclick="changeTeamCount(1)"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                </div>
+                <div>
+                    <h3 style="font-family:'Rajdhani'; font-size:15px; color:var(--text-white); margin-bottom:10px; text-transform:uppercase;">Umumiy Aloqa</h3>
+                    <button class="btn btn-warning" id="master-override-btn" style="width: 100%; justify-content: center; padding: 12px; font-size: 12px;" onclick="toggleMasterOverride()">
+                        <i class="fa-solid fa-bullhorn"></i> Hammani Opshiga Bog'lash
+                    </button>
+                </div>
+                <div>
+                    <h3 style="font-family:'Rajdhani'; font-size:15px; color:var(--text-white); margin-bottom:10px; text-transform:uppercase;">Barchasini Tozalash</h3>
+                    <button class="btn btn-danger" style="width: 100%; justify-content: center; padding: 12px; font-size: 12px;" onclick="resetAllData()">
+                        <i class="fa-solid fa-trash"></i> Hammasini O'chirish
+                    </button>
+                </div>
+            </div>
+
+            <h3 style="font-family:'Rajdhani'; font-size:16px; color:var(--text-white); margin-bottom:10px; text-transform:uppercase;">
+                O'yinchilar Ro'yxati (<span id="total-players-count">0</span>)
+            </h3>
+            <div style="overflow-x: auto;">
+                <table class="admin-players-table">
+                    <thead>
+                        <tr>
+                            <th>Nishon</th>
+                            <th>Nik</th>
+                            <th>Kamanda</th>
+                            <th>Ro'yxatdan O'tish</th>
+                            <th>Gapirish Ruxsati</th>
+                            <th>Harakat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-players-tbody"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!-- Ovoz elementlari konteyneri -->
+    <div id="audio-container" style="display:none;"></div>
+
+    <div class="modal" id="admin-login-modal">
+        <div class="modal-content">
+            <h3 class="modal-title"><i class="fa-solid fa-lock"></i> Admin Paroli</h3>
+            <div class="form-group">
+                <input type="password" id="admin-password-input" class="form-control" placeholder="Parol...">
+            </div>
+            <div style="display: flex; gap: 10px; justify-content: flex-end; margin-top: 5px;">
+                <button class="btn btn-secondary" onclick="closeAdminLoginModal()">Bekor qilish</button>
+                <button class="btn" onclick="verifyAdminPassword()">Kirish</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="toast-notification">
+        <i class="fa-solid fa-circle-check" id="toast-icon" style="color: var(--success); font-size: 20px;"></i>
+        <span id="toast-message" style="font-weight: 500; font-size: 13px;">Muvaffaqiyatli!</span>
+    </div>
+
+    <footer>CHINGIZBEK EDITION</footer>
+
+    <!-- Firebase SDK Modular Import -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getDatabase, 
+            ref, 
+            push, 
+            set, 
+            onValue, 
+            remove,
+            update,
+            onChildAdded
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAqwKLpKR4soGNkuLUhT48nCB8uGLeD5N8",
+            authDomain: "my-admin-app-c6265.firebaseapp.com",
+            databaseURL: "https://my-admin-app-c6265-default-rtdb.firebaseio.com",
+            projectId: "my-admin-app-c6265",
+            storageBucket: "my-admin-app-c6265.firebasestorage.app",
+            messagingSenderId: "402962413862",
+            appId: "1:402962413862:web:9bfd69fe2247e7c4f9e9e7"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+
+        const playersRef = ref(db, "cs_voice_hub/players");
+        const settingsRef = ref(db, "cs_voice_hub/settings");
+        const activeTxRef = ref(db, "cs_voice_hub/activeTx");
+
+        const CS_CHARACTERS = [
+            { name: "C4 Specialist", svg: `<svg viewBox="0 0 24 24"><path d="M5,16L3,5L8.5,10L12,4L15.5,10L21,5L19,16H5M19,19C19,19.55 18.55,20 18,20H6C5.45,20 5,19.55 5,19V18H19V19Z"/></svg>` },
+            { name: "Flash Striker", svg: `<svg viewBox="0 0 24 24"><path d="M11,15H6L13,1V9H18L11,23V15Z"/></svg>` },
+            { name: "Tactical Shield", svg: `<svg viewBox="0 0 24 24"><path d="M12,1L3,5V11C3,16.55 6.84,21.74 12,23C17.16,21.74 21,16.55 21,11V5L12,1M12,3.18L19,6.3V11C19,15.33 15.94,19.35 12,20.49C8.06,19.35 5,15.33 5,11V6.3L12,3.18Z"/></svg>` },
+            { name: "Crosshair Sniper", svg: `<svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4M12,7A5,5 0 0,0 7,12A5,5 0 0,0 12,17A5,5 0 0,0 17,12A5,5 0 0,0 12,7M12,9A3,3 0 0,1 15,12A3,3 0 0,1 12,15A3,3 0 0,1 9,12A3,3 0 0,1 12,9Z"/></svg>` },
+            { name: "Night Ghost", svg: `<svg viewBox="0 0 24 24"><path d="M12,2C7.03,2 3,6.03 3,11V22L6,19L9,22L12,19L15,22L18,19L21,22V11C21,6.03 16.97,2 12,2M8,9H10V11H8V9M14,9H16V11H14V9Z"/></svg>` },
+            { name: "Heavy Gunner", svg: `<svg viewBox="0 0 24 24"><path d="M2,13H8V11H2M5,3A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3H5M5,5H19V19H5V5Z"/></svg>` },
+            { name: "Armor Guard", svg: `<svg viewBox="0 0 24 24"><path d="M4,6H20V18H4V6M6,8V16H18V8H6M9,10H11V12H9V10M13,10H15V12H13V10M9,13H11V15H9V13M13,13H15V15H13V13Z"/></svg>` },
+            { name: "Flame Wing", svg: `<svg viewBox="0 0 24 24"><path d="M17.56,19.39C16.89,20.25 15.65,20.5 14.5,20.24C12.87,19.86 11.69,18.42 11.66,16.73C11.64,15.33 12.35,14.07 13.5,13.35C12.44,14.39 12.04,15.96 12.5,17.41C12.8,18.35 13.73,19.06 14.73,19.14C16.4,19.28 17.88,18.15 18.12,16.5C18.4,14.56 16.94,12.72 15,12.5C13.88,12.37 12.78,12.86 12.11,13.76C11.65,11.55 12.91,9.36 15,8.5C12.5,9.25 10.5,11.5 10,14C9.5,11 11,8 14,6C11.5,6.75 9.4,8.84 8.7,11.38C7.89,14.33 9.42,17.5 12.2,18.78C10.5,17.5 9.8,15.2 10.5,13C8.5,14.5 7.8,17.3 9.1,19.6C7.3,18.2 6.5,15.8 7.2,13.5C6.1,15.2 6.1,17.5 7.3,19.2C5.5,17.8 4.7,15.3 5.5,13C4,14.8 3.8,17.5 5,19.7C3.3,17.8 3,15 4,12.7C2.9,15.1 3.2,18.1 5.3,20.1C7.2,21.8 10,22.2 12.4,21.2C14.7,20.2 16.5,18.2 17.1,15.8C16.5,17.2 16.8,18.6 17.56,19.39Z"/></svg>` },
+            { name: "Cyber Eye", svg: `<svg viewBox="0 0 24 24"><path d="M12,2A10,10 0 0,0 2,12C2,14.6 3,17 4.6,18.8L3.3,21.5L6,20.2C7.8,21.4 10,22 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M9,9A1,1 0 0,1 10,10A1,1 0 0,1 9,11A1,1 0 0,1 8,10A1,1 0 0,1 9,9M15,9A1,1 0 0,1 16,10A1,1 0 0,1 15,11A1,1 0 0,1 14,10A1,1 0 0,1 15,9M12,13C14,13 15.7,14.2 16.3,16H7.7C8.3,14.2 10,13 12,13Z"/></svg>` },
+            { name: "Gold Master", svg: `<svg viewBox="0 0 24 24"><path d="M18,2A2,2 0 0,1 20,4V6H22V10C22,12.21 20.21,14 18,14H17.89C17.05,16.31 14.83,18 12.19,18.39V20H15V22H9V20H11.81V18.39C9.17,18 6.95,16.31 6.11,14H6C3.79,14 2,12.21 2,10V6H4V4A2,2 0 0,1 6,2H18M4,8V10C4,11.1 4.9,12 6,12H7V8H4M20,10V8H17V12H18C19.1,12 20,11.1 20,10Z"/></svg>` }
+        ];
+
+        const SVG_GRANTED = `<svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>`;
+        const SVG_DENIED = `<svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>`;
+        const SVG_TEAM_MIC = `<svg viewBox="0 0 24 24"><path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3zm5.91-3c-.49 0-.9.36-.98.85C16.52 14.2 14.47 16 12 16s-4.52-1.8-4.93-4.15c-.08-.49-.49-.85-.98-.85-.61 0-1.09.54-1 1.14.49 3 2.89 5.35 5.91 5.78V20c0 .55.45 1 1 1s1-.45 1-1v-2.08c3.02-.43 5.42-2.78 5.91-5.78.1-.6-.39-1.14-1-1.14z"/></svg>`;
+        const SVG_GLOBAL_MIC = `<svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>`;
+        const SVG_ADMIN_MIC = `<svg viewBox="0 0 24 24"><path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm1 14h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>`;
+
+        let deviceId = localStorage.getItem('cs_device_id') || ('dev_' + Math.random().toString(36).substring(2, 10));
+        localStorage.setItem('cs_device_id', deviceId);
+
+        let selectedAvatarIndex = 0;
+        let isAdminLoggedIn = sessionStorage.getItem('cs_admin_logged') === 'true';
+
+        let settings = { teamCount: 8, masterOverride: false };
+        let players = [];
+        let activeTransmission = null;
+
+        let localStream = null;
+        let peerConnections = {};
+        const rtcConfig = {
+            iceServers: [
+                { urls: 'stun:stun.l.google.com:19302' },
+                { urls: 'stun:stun1.l.google.com:19302' },
+                { urls: 'stun:stun2.l.google.com:19302' },
+                { urls: 'stun:stun3.l.google.com:19302' },
+                { urls: 'stun:stun4.l.google.com:19302' }
+            ]
+        };
+
+        let audioCtx = null;
+        function playBeep(type) {
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                if (type === 'team') {
+                    osc.frequency.setValueAtTime(800, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.12);
+                } else if (type === 'global') {
+                    osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.2);
+                } else if (type === 'admin') {
+                    osc.frequency.setValueAtTime(500, audioCtx.currentTime);
+                    gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                    osc.start();
+                    osc.stop(audioCtx.currentTime + 0.15);
+                }
+            } catch(e) {}
+        }
+
+        function unlockAllAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            document.querySelectorAll('#audio-container audio').forEach(a => {
+                a.play().catch(() => {});
+            });
+        }
+
+        // AVTOMATIK MIKROFONNI ISHGA TUSHIRISH
+        async function autoEnableMicrophone() {
+            if (localStream) return localStream;
+            try {
+                localStream = await navigator.mediaDevices.getUserMedia({
+                    audio: {
+                        echoCancellation: true,
+                        noiseSuppression: true,
+                        autoGainControl: true
+                    },
+                    video: false
+                });
+                localStream.getAudioTracks().forEach(t => t.enabled = false);
+                return localStream;
+            } catch (err) {
+                console.warn("Mikrofon ruxsati kutilmoqda:", err);
+                return null;
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderAvatarPicker();
+            setupFirebaseListeners();
+            if(isAdminLoggedIn) {
+                document.getElementById('admin-panel').style.display = 'block';
+                document.getElementById('admin-toggle-btn').innerHTML = '<i class="fa-solid fa-unlock"></i> Admin';
+            }
+
+            // Foydalanuvchi sahifaga tekkanda avtomatik mikrofon va audioni tayyorlash
+            window.addEventListener('click', () => {
+                unlockAllAudio();
+                autoEnableMicrophone();
+            }, { once: true });
+
+            window.addEventListener('touchstart', () => {
+                unlockAllAudio();
+                autoEnableMicrophone();
+            }, { once: true });
+        });
+
+        function setupFirebaseListeners() {
+            onValue(playersRef, (snapshot) => {
+                const data = snapshot.val();
+                players = [];
+                if (data) {
+                    Object.keys(data).forEach(key => {
+                        players.push({ id: key, ...data[key] });
+                    });
+                }
+                updateUI();
+                manageWebRTCPeers();
+            });
+
+            onValue(settingsRef, (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    settings = data;
+                }
+                updateUI();
+                applyAudioRouting();
+            });
+
+            onValue(activeTxRef, (snapshot) => {
+                const prevTx = activeTransmission;
+                activeTransmission = snapshot.val();
+                if (activeTransmission && (!prevTx || prevTx.mode !== activeTransmission.mode)) {
+                    playBeep(activeTransmission.mode);
+                }
+                updateUI();
+                applyAudioRouting();
+            });
+        }
+
+        function listenToSignaling(myId) {
+            const mySignalsRef = ref(db, `cs_voice_hub/signals/${myId}`);
+            onChildAdded(mySignalsRef, async (snapshot) => {
+                const fromId = snapshot.key;
+                const data = snapshot.val();
+                if (!fromId || !data) return;
+
+                let pc = peerConnections[fromId];
+                if (!pc) return;
+
+                try {
+                    if (data.sdp) {
+                        const desc = new RTCSessionDescription(data.sdp);
+                        if (desc.type === 'offer') {
+                            await pc.setRemoteDescription(desc);
+                            const answer = await pc.createAnswer();
+                            await pc.setLocalDescription(answer);
+                            set(ref(db, `cs_voice_hub/signals/${fromId}/${myId}/sdp`), {
+                                type: answer.type,
+                                sdp: answer.sdp
+                            });
+                        } else if (desc.type === 'answer') {
+                            if (pc.signalingState !== 'stable') {
+                                await pc.setRemoteDescription(desc);
+                            }
+                        }
+                    }
+                    if (data.candidate) {
+                        await pc.addIceCandidate(new RTCIceCandidate(data.candidate));
+                    }
+                } catch (err) {
+                    console.error("Signaling xatolik:", err);
+                }
+            });
+        }
+
+        async function manageWebRTCPeers() {
+            const me = players.find(p => p.deviceId === deviceId);
+            if (!me || me.status !== 'approved') return;
+
+            listenToSignaling(me.id);
+            const stream = await autoEnableMicrophone();
+
+            for (let other of players) {
+                if (other.id === me.id || other.status !== 'approved') continue;
+
+                if (!peerConnections[other.id]) {
+                    const pc = new RTCPeerConnection(rtcConfig);
+                    peerConnections[other.id] = pc;
+
+                    if (stream) {
+                        stream.getTracks().forEach(track => pc.addTrack(track, stream));
+                    }
+
+                    pc.onicecandidate = (event) => {
+                        if (event.candidate) {
+                            set(ref(db, `cs_voice_hub/signals/${other.id}/${me.id}/candidate`), event.candidate.toJSON());
+                        }
+                    };
+
+                    pc.ontrack = (event) => {
+                        let audioEl = document.getElementById(`audio_${other.id}`);
+                        if (!audioEl) {
+                            audioEl = document.createElement('audio');
+                            audioEl.id = `audio_${other.id}`;
+                            audioEl.autoplay = true;
+                            audioEl.playsInline = true;
+                            audioEl.muted = false;
+                            audioEl.volume = 1.0;
+                            document.getElementById('audio-container').appendChild(audioEl);
+                        }
+                        audioEl.srcObject = event.streams[0];
+                        audioEl.play().catch(e => console.log("Audio kutilmoqda:", e));
+                        applyAudioRouting();
+                    };
+
+                    if (me.id > other.id) {
+                        const offer = await pc.createOffer({ offerToReceiveAudio: true });
+                        await pc.setLocalDescription(offer);
+                        set(ref(db, `cs_voice_hub/signals/${other.id}/${me.id}/sdp`), {
+                            type: offer.type,
+                            sdp: offer.sdp
+                        });
+                    }
+                }
+            }
+        }
+
+        function applyAudioRouting() {
+            const me = players.find(p => p.deviceId === deviceId);
+            if (!me) return;
+
+            players.forEach(sender => {
+                if (sender.id === me.id) return;
+                const audioEl = document.getElementById(`audio_${sender.id}`);
+                if (!audioEl) return;
+
+                let shouldHear = false;
+
+                if (settings.masterOverride) {
+                    shouldHear = true;
+                } else if (activeTransmission && activeTransmission.playerId === sender.id) {
+                    if (activeTransmission.mode === 'global') {
+                        shouldHear = true;
+                    } else if (activeTransmission.mode === 'team') {
+                        shouldHear = (parseInt(me.team) === parseInt(sender.team));
+                    } else if (activeTransmission.mode === 'admin') {
+                        shouldHear = isAdminLoggedIn;
+                    }
+                }
+
+                audioEl.volume = shouldHear ? 1.0 : 0.0;
+                if (shouldHear) {
+                    audioEl.play().catch(() => {});
+                }
+            });
+        }
+
+        function renderAvatarPicker() {
+            const container = document.getElementById('avatar-options-container');
+            container.innerHTML = '';
+            CS_CHARACTERS.forEach((item, index) => {
+                const div = document.createElement('div');
+                div.className = `avatar-option ${index === selectedAvatarIndex ? 'selected' : ''}`;
+                div.innerHTML = item.svg;
+                div.title = item.name;
+                div.onclick = () => {
+                    selectedAvatarIndex = index;
+                    document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+                    div.classList.add('selected');
+                };
+                container.appendChild(div);
+            });
+        }
+
+        function showToast(message, isError = false) {
+            const toast = document.getElementById('toast-notification');
+            const toastMsg = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+            toast.style.borderLeftColor = isError ? 'var(--danger)' : 'var(--success)';
+            toastIcon.className = isError ? 'fa-solid fa-circle-exclamation' : 'fa-solid fa-circle-check';
+            toastIcon.style.color = isError ? 'var(--danger)' : 'var(--success)';
+            toastMsg.innerText = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2500);
+        }
+
+        // RO'YXATDAN O'TISH: Mikrofon huquqi dastlab avtomatik ravishda voiceAccess: true qilinadi
+        window.handleRegistration = async function(e) {
+            e.preventDefault();
+            const input = document.getElementById('reg-nickname');
+            const nickname = input.value.trim();
+            if(!nickname) return;
+
+            unlockAllAudio();
+            await autoEnableMicrophone();
+
+            const existingPlayer = players.find(p => p.deviceId === deviceId);
+
+            if (existingPlayer) {
+                await update(ref(db, `cs_voice_hub/players/${existingPlayer.id}`), {
+                    nickname: nickname,
+                    avatarIndex: selectedAvatarIndex
+                });
+                showToast("Ma'lumotlaringiz yangilandi!");
+            } else {
+                const newPlayerRef = push(playersRef);
+                await set(newPlayerRef, {
+                    deviceId: deviceId,
+                    nickname: nickname,
+                    avatarIndex: selectedAvatarIndex,
+                    team: 1,
+                    status: 'pending',
+                    voiceAccess: true // AVTOMATIK MIKROFON HUQUQI BERILADI
+                });
+                showToast("Kirish so'rovingiz adminga yuborildi!");
+            }
+            input.value = '';
+        };
+
+        window.joinTeam = function(teamNumber) {
+            const me = players.find(p => p.deviceId === deviceId);
+            if(!me) return showToast("Avval ro'yxatdan o'ting!", true);
+            if(me.status !== 'approved') return showToast("Admin sizning kirishingizni tasdiqlamagan!", true);
+
+            unlockAllAudio();
+            update(ref(db, `cs_voice_hub/players/${me.id}`), { team: teamNumber });
+            showToast(`${teamNumber}-kamandaga o'tdingiz!`);
+        };
+
+        window.talkToTeam = async function(targetPlayerId, teamNum) {
+            const me = players.find(p => p.deviceId === deviceId);
+            if(!me) return showToast("Avval ro'yxatdan o'ting!", true);
+            if(me.status !== 'approved') return showToast("Admin hali kirishga ruxsat bermagan!", true);
+            if(!me.voiceAccess) return showToast("Sizda gapirish ruxsati yo'q! (X)", true);
+
+            unlockAllAudio();
+            const stream = await autoEnableMicrophone();
+            if(!stream) return;
+
+            if(activeTransmission && activeTransmission.playerId === me.id && activeTransmission.mode === 'team') {
+                stream.getAudioTracks().forEach(t => t.enabled = false);
+                set(activeTxRef, null);
+                return;
+            }
+
+            stream.getAudioTracks().forEach(t => t.enabled = true);
+            set(activeTxRef, {
+                playerId: me.id,
+                nickname: me.nickname,
+                mode: 'team',
+                team: teamNum,
+                label: `[${teamNum}-KAMANDA JONLI EFIR]`
+            });
+        };
+
+        window.talkToGlobal = async function(targetPlayerId) {
+            const me = players.find(p => p.deviceId === deviceId);
+            if(!me) return showToast("Avval ro'yxatdan o'ting!", true);
+            if(me.status !== 'approved') return showToast("Admin hali kirishga ruxsat bermagan!", true);
+            if(!me.voiceAccess) return showToast("Sizda gapirish ruxsati yo'q! (X)", true);
+
+            unlockAllAudio();
+            const stream = await autoEnableMicrophone();
+            if(!stream) return;
+
+            if(activeTransmission && activeTransmission.playerId === me.id && activeTransmission.mode === 'global') {
+                stream.getAudioTracks().forEach(t => t.enabled = false);
+                set(activeTxRef, null);
+                return;
+            }
+
+            stream.getAudioTracks().forEach(t => t.enabled = true);
+            set(activeTxRef, {
+                playerId: me.id,
+                nickname: me.nickname,
+                mode: 'global',
+                team: me.team,
+                label: `[OPSHI JONLI EFIR]`
+            });
+        };
+
+        window.talkToAdmin = async function(targetPlayerId) {
+            const me = players.find(p => p.deviceId === deviceId);
+            if(!me) return showToast("Avval ro'yxatdan o'ting!", true);
+            if(me.status !== 'approved') return showToast("Admin hali kirishga ruxsat bermagan!", true);
+            if(!me.voiceAccess) return showToast("Sizda gapirish ruxsati yo'q! (X)", true);
+
+            unlockAllAudio();
+            const stream = await autoEnableMicrophone();
+            if(!stream) return;
+
+            if(activeTransmission && activeTransmission.playerId === me.id && activeTransmission.mode === 'admin') {
+                stream.getAudioTracks().forEach(t => t.enabled = false);
+                set(activeTxRef, null);
+                return;
+            }
+
+            stream.getAudioTracks().forEach(t => t.enabled = true);
+            set(activeTxRef, {
+                playerId: me.id,
+                nickname: me.nickname,
+                mode: 'admin',
+                team: me.team,
+                label: `[ADMINGA JONLI ALOQA]`
+            });
+        };
+
+        window.toggleMasterOverride = function() {
+            unlockAllAudio();
+            const nextState = !settings.masterOverride;
+            update(settingsRef, { masterOverride: nextState });
+            if (nextState) {
+                showToast("Admin barchani umumiy efirga bog'ladi!");
+            } else {
+                showToast("Umumiy efir yakunlandi.");
+            }
+        };
+
+        window.openAdminLoginModal = function() {
+            if(isAdminLoggedIn) {
+                logoutAdmin();
+                return;
+            }
+            document.getElementById('admin-login-modal').style.display = 'flex';
+        };
+
+        window.closeAdminLoginModal = function() {
+            document.getElementById('admin-login-modal').style.display = 'none';
+            document.getElementById('admin-password-input').value = '';
+        };
+
+        window.verifyAdminPassword = function() {
+            const val = document.getElementById('admin-password-input').value;
+            if(val === '0205') {
+                isAdminLoggedIn = true;
+                sessionStorage.setItem('cs_admin_logged', 'true');
+                document.getElementById('admin-panel').style.display = 'block';
+                document.getElementById('admin-toggle-btn').innerHTML = '<i class="fa-solid fa-unlock"></i> Admin';
+                closeAdminLoginModal();
+                showToast("Admin paneliga xush kelibsiz!");
+                unlockAllAudio();
+                updateUI();
+                applyAudioRouting();
+            } else {
+                showToast("Parol noto'g'ri!", true);
+            }
+        };
+
+        window.logoutAdmin = function() {
+            isAdminLoggedIn = false;
+            sessionStorage.removeItem('cs_admin_logged');
+            document.getElementById('admin-panel').style.display = 'none';
+            document.getElementById('admin-toggle-btn').innerHTML = '<i class="fa-solid fa-lock"></i> Admin';
+            showToast("Admin paneldan chiqildi.");
+            applyAudioRouting();
+        };
+
+        // ADMIN QABUL QILGANDA AVTOMATIK MIKROFON HAM OCHILADI
+        window.approvePlayerRegistration = function(id) {
+            update(ref(db, `cs_voice_hub/players/${id}`), { 
+                status: 'approved',
+                voiceAccess: true 
+            });
+            showToast("O'yinchi qabul qilindi va mikrofoni yoqildi!");
+        };
+
+        window.togglePlayerVoiceAccess = function(id) {
+            const p = players.find(x => x.id === id);
+            if(p) {
+                update(ref(db, `cs_voice_hub/players/${id}`), { voiceAccess: !p.voiceAccess });
+                showToast(`Ruxsat yangilandi!`);
+            }
+        };
+
+        window.changeTeamCount = function(delta) {
+            let next = (settings.teamCount || 8) + delta;
+            if(next < 1) next = 1;
+            if(next > 8) next = 8;
+            update(settingsRef, { teamCount: next });
+            
+            players.forEach(p => {
+                if(p.team > next) {
+                    update(ref(db, `cs_voice_hub/players/${p.id}`), { team: 1 });
+                }
+            });
+        };
+
+        window.kickPlayer = function(id) {
+            remove(ref(db, `cs_voice_hub/players/${id}`));
+            if(activeTransmission && activeTransmission.playerId === id) {
+                set(activeTxRef, null);
+            }
+            if (peerConnections[id]) {
+                peerConnections[id].close();
+                delete peerConnections[id];
+            }
+            const a = document.getElementById(`audio_${id}`);
+            if (a) a.remove();
+            showToast("O'yinchi chiqarib yuborildi.");
+        };
+
+        window.resetAllData = function() {
+            if(confirm("Barcha ma'lumotlar o'chirilsinmi?")) {
+                remove(playersRef);
+                set(settingsRef, { teamCount: 8, masterOverride: false });
+                set(activeTxRef, null);
+                remove(ref(db, "cs_voice_hub/signals"));
+                showToast("Barcha ma'lumotlar tozalandi.");
+            }
+        };
+
+        function updateUI() {
+            document.getElementById('admin-team-count').innerText = settings.teamCount || 8;
+            document.getElementById('total-players-count').innerText = players.length;
+
+            const masterBtn = document.getElementById('master-override-btn');
+            const overrideBanner = document.getElementById('admin-override-banner');
+
+            if(settings.masterOverride) {
+                overrideBanner.style.display = 'flex';
+                masterBtn.className = "btn btn-danger";
+                masterBtn.innerHTML = `<i class="fa-solid fa-phone-slash"></i> Opshi Chatni Ajratish`;
+            } else {
+                overrideBanner.style.display = 'none';
+                masterBtn.className = "btn btn-warning";
+                masterBtn.innerHTML = `<i class="fa-solid fa-bullhorn"></i> Hammani Opshiga Bog'lash`;
+            }
+
+            const me = players.find(p => p.deviceId === deviceId);
+            const badgeSpan = document.getElementById('my-voice-badge');
+            const pendingNotice = document.getElementById('pending-notice');
+
+            if(me) {
+                if(me.status === 'pending') {
+                    pendingNotice.style.display = 'block';
+                    badgeSpan.innerHTML = `<span style="color:var(--warning); font-size:11px; font-weight:700;"><i class="fa-solid fa-clock"></i> Admin tasdiqlashi kutilmoqda</span>`;
+                } else {
+                    pendingNotice.style.display = 'none';
+                    badgeSpan.innerHTML = me.voiceAccess 
+                        ? `<span class="status-svg-badge granted" title="Ruxsat berilgan">${SVG_GRANTED}</span> <span style="font-size:11px; color:var(--success); font-weight:700;">Ruxsat Bor</span>` 
+                        : `<span class="status-svg-badge denied" title="Ruxsat yo'q">${SVG_DENIED}</span> <span style="font-size:11px; color:var(--danger); font-weight:700;">Ruxsat Yo'q</span>`;
+                }
+            } else {
+                pendingNotice.style.display = 'none';
+                badgeSpan.innerHTML = `<span style="color:#64748b; font-size:11px;">Ro'yxatdan o'tilmagan</span>`;
+            }
+
+            const container = document.getElementById('public-teams-container');
+            container.innerHTML = '';
+            const approvedPlayers = players.filter(p => p.status === 'approved');
+
+            const currentTeamCount = settings.teamCount || 8;
+
+            for(let i = 1; i <= currentTeamCount; i++) {
+                const teamBox = document.createElement('div');
+                teamBox.className = `team-box team-idx-${i}`;
+
+                const teamMembers = approvedPlayers.filter(p => p.team === i);
+                const isMyTeam = me && me.team === i && me.status === 'approved';
+
+                let membersHtml = '';
+                if(teamMembers.length === 0) {
+                    membersHtml = `<span style="color:#64748b; font-size:11px; padding:10px 0; text-align:center;">O'yinchilar yo'q...</span>`;
+                } else {
+                    membersHtml = teamMembers.map(p => {
+                        const isThisMe = p.deviceId === deviceId;
+                        const charSvg = CS_CHARACTERS[p.avatarIndex || 0].svg;
+                        const statusBadge = p.voiceAccess 
+                            ? `<span class="status-svg-badge granted" title="Gapirishga ruxsat bor">${SVG_GRANTED}</span>` 
+                            : `<span class="status-svg-badge denied" title="Ruxsat yo'q">${SVG_DENIED}</span>`;
+
+                        const isSpeaking = activeTransmission && activeTransmission.playerId === p.id;
+                        let cardTxClass = '';
+                        let waveHtml = '';
+                        let statusText = `<span class="member-live-status idle">Tinch</span>`;
+
+                        if(isSpeaking) {
+                            cardTxClass = `is-transmitting-${activeTransmission.mode}`;
+                            waveHtml = `
+                                <div class="audio-wave-bars active wave-${activeTransmission.mode}" title="Jonli efirda">
+                                    <div class="audio-wave-bar"></div>
+                                    <div class="audio-wave-bar"></div>
+                                    <div class="audio-wave-bar"></div>
+                                    <div class="audio-wave-bar"></div>
+                                </div>
+                            `;
+                            statusText = `<span class="member-live-status active-${activeTransmission.mode}"><i class="fa-solid fa-microphone-lines"></i> ${activeTransmission.label}</span>`;
+                        } else if(settings.masterOverride) {
+                            statusText = `<span class="member-live-status active-global"><i class="fa-solid fa-volume-high"></i> Opshi Chatda</span>`;
+                        }
+
+                        let myActionStickersHtml = '';
+                        if (isThisMe) {
+                            myActionStickersHtml = `
+                                <div class="voice-action-stickers">
+                                    <button class="sticker-btn sticker-team" title="Kamandaga gapirish" onclick="talkToTeam('${p.id}', ${p.team})">
+                                        ${SVG_TEAM_MIC}
+                                    </button>
+                                    <button class="sticker-btn sticker-global" title="Opshiga gapirish" onclick="talkToGlobal('${p.id}')">
+                                        ${SVG_GLOBAL_MIC}
+                                    </button>
+                                    <button class="sticker-btn sticker-admin" title="Adminga gapirish" onclick="talkToAdmin('${p.id}')">
+                                        ${SVG_ADMIN_MIC}
+                                    </button>
+                                </div>
+                            `;
+                        }
+
+                        return `
+                            <div class="team-member-card ${cardTxClass}">
+                                <div class="member-info">
+                                    <div class="avatar-box">${charSvg}</div>
+                                    <div class="member-text-wrap">
+                                        <div class="member-row-top">
+                                            <div class="member-name" ${isThisMe ? 'style="color: var(--accent-blue);"' : ''}>${escapeHtml(p.nickname)}</div>
+                                            ${statusBadge}
+                                        </div>
+                                        ${statusText}
+                                    </div>
+                                </div>
+                                
+                                <div style="display: flex; align-items: center; gap: 4px;">
+                                    ${waveHtml}
+                                    ${myActionStickersHtml}
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+
+                teamBox.innerHTML = `
+                    <div class="team-header">
+                        <div class="team-title-wrap">
+                            <i class="fa-solid fa-shield-halved"></i> Kamanda ${i}
+                        </div>
+                        <div style="display: flex; gap: 8px; align-items: center;">
+                            <div class="team-power-badge"><i class="fa-solid fa-users"></i> ${teamMembers.length}</div>
+                            <button class="btn btn-secondary" style="padding: 4px 8px; font-size: 10px;" onclick="joinTeam(${i})">
+                                ${isMyTeam ? '<i class="fa-solid fa-check"></i> Mening guruhim' : 'Qo\'shilish'}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="team-members-list">
+                        ${membersHtml}
+                    </div>
+                `;
+                container.appendChild(teamBox);
+            }
+
+            const adminTbody = document.getElementById('admin-players-tbody');
+            adminTbody.innerHTML = '';
+            if(players.length === 0) {
+                adminTbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:#64748b; padding:20px;">Hali birorta o'yinchi ro'yxatdan o'tmadi</td></tr>`;
+            } else {
+                players.forEach(p => {
+                    const tr = document.createElement('tr');
+                    const charSvg = CS_CHARACTERS[p.avatarIndex || 0].svg;
+                    
+                    const statusCell = p.status === 'approved' 
+                        ? `<span class="status-pill approved"><i class="fa-solid fa-circle-check"></i> Qabul qilingan</span>`
+                        : `<span class="status-pill pending"><i class="fa-solid fa-clock"></i> Kutilmoqda</span>`;
+
+                    const voiceCell = p.voiceAccess 
+                        ? `<button class="admin-voice-btn active" onclick="togglePlayerVoiceAccess('${p.id}')" title="Ruxsatni olish">${SVG_GRANTED} <span>RUXSAT BOR</span></button>`
+                        : `<button class="admin-voice-btn inactive" onclick="togglePlayerVoiceAccess('${p.id}')" title="Ruxsat berish">${SVG_DENIED} <span>RUXSAT YO'Q</span></button>`;
+
+                    let actionsHtml = '';
+                    if(p.status === 'pending') {
+                        actionsHtml += `
+                            <button class="btn btn-success" style="padding: 5px 10px; font-size: 11px; margin-right: 5px;" onclick="approvePlayerRegistration('${p.id}')">
+                                <i class="fa-solid fa-check"></i> Qabul Qilish
+                            </button>
+                        `;
+                    }
+
+                    actionsHtml += `
+                        <button class="btn btn-danger" style="padding: 5px 10px; font-size: 11px;" onclick="kickPlayer('${p.id}')">
+                            <i class="fa-solid fa-user-xmark"></i> Kick
+                        </button>
+                    `;
+
+                    tr.innerHTML = `
+                        <td><div class="avatar-box" style="width:30px; height:30px; padding:4px;">${charSvg}</div></td>
+                        <td style="font-weight:700; color:#fff;">${escapeHtml(p.nickname)}</td>
+                        <td><span style="font-weight:600; color:var(--team-${p.team || 1});">${p.team}-Kamanda</span></td>
+                        <td>${statusCell}</td>
+                        <td>${voiceCell}</td>
+                        <td>${actionsHtml}</td>
+                    `;
+                    adminTbody.appendChild(tr);
+                });
+            }
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>
